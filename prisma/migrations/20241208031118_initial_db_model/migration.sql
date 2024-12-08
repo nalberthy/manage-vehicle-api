@@ -20,7 +20,7 @@ CREATE TABLE "brand" (
     "deleted_at" TIMESTAMP(3),
     "name" TEXT NOT NULL,
     "model" TEXT NOT NULL,
-    "year" INTEGER NOT NULL,
+    "year" TEXT NOT NULL,
 
     CONSTRAINT "brand_pkey" PRIMARY KEY ("id")
 );
