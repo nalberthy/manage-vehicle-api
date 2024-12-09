@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsString, ValidateNested } from 'class-validator';
 import { BrandDto } from './brand.dto';
 import { Type } from 'class-transformer';
 
@@ -12,6 +12,7 @@ export class VehicleDto {
   @IsString()
   renavam: string;
 
+  @ValidateNested()
   @Type(() => BrandDto)
   brand: BrandDto;
 }
