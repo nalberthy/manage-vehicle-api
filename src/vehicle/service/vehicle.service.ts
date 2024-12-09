@@ -49,4 +49,35 @@ export class VehicleService {
     }
     return this.vehicleRepository.createVehicle(createVehicleData);
   }
+
+  async createBrand(data: Prisma.BrandCreateInput) {
+    const { name, model, year } = data;
+    const isVehicle = await this.vehicleRepository.findBrand({
+      name,
+      model,
+      year,
+    });
+
+    if (isVehicle) {
+      throw new Error('Brand already exists');
+    }
+
+    return this.vehicleRepository.createBrand(data);
+  }
+
+  updateVehicle(vehicleId: number, data: Prisma.VehicleUpdateInput) {
+    return this.vehicleRepository.updateVehicle(vehicleId, data);
+  }
+
+  updateBrand(brandId: number, data: Prisma.BrandUpdateInput) {
+    return this.vehicleRepository.updateBrand(brandId, data);
+  }
+
+  deleteVehicle(id: number) {
+    return this.vehicleRepository.deleteVehicle(id);
+  }
+
+  deleteBrand(id: number) {
+    return this.vehicleRepository.deleteBrand(id);
+  }
 }

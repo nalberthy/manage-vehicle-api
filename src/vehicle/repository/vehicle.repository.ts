@@ -15,7 +15,7 @@ export class VehicleRepository {
         },
       });
     }
-    return this.prisma.vehicle.findMany();
+    return this.prisma.vehicle.findMany({ include: { brand: true } });
   }
 
   async getBrands(id?: number) {
@@ -24,8 +24,13 @@ export class VehicleRepository {
         where: { id },
       });
     }
-    console.log('getBrands', await this.prisma.brand.findMany());
     return this.prisma.brand.findMany();
+  }
+
+  findBrand(filter: Partial<Prisma.BrandWhereUniqueInput>) {
+    return this.prisma.brand.findFirst({
+      where: filter,
+    });
   }
 
   createVehicle(data: Prisma.VehicleCreateInput) {
@@ -37,9 +42,38 @@ export class VehicleRepository {
     });
   }
 
-  findBrand(filter: Partial<Prisma.BrandWhereUniqueInput>) {
-    return this.prisma.brand.findFirst({
-      where: filter,
+  createBrand(data: Prisma.BrandCreateInput) {
+    return this.prisma.brand.create({
+      data,
+    });
+  }
+
+  updateVehicle(id: number, data: Prisma.VehicleUpdateInput) {
+    return this.prisma.vehicle.update({
+      where: { id },
+      data,
+      include: {
+        brand: true,
+      },
+    });
+  }
+
+  updateBrand(id: number, data: Prisma.BrandUpdateInput) {
+    return this.prisma.brand.update({
+      where: { id },
+      data,
+    });
+  }
+
+  deleteVehicle(id: number) {
+    return this.prisma.vehicle.delete({
+      where: { id },
+    });
+  }
+
+  deleteBrand(id: number) {
+    return this.prisma.brand.delete({
+      where: { id },
     });
   }
 }
