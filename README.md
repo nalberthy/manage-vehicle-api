@@ -18,7 +18,7 @@ npm run test
 ![image](https://github.com/user-attachments/assets/99e3f867-1960-4bd8-9df5-87a2c160d706).
 
 5. Faça download do arquivo docker-compose e adicione na pasta dos projetos, conforme representado na imagem acima: <a href="https://github.com/nalberthy/manage-vehicle-api/blob/master/docker/docker-compose.yml" download>Click to Download</a>.
-6. Executar ```docker-compose up``` para criar os containers.
+6. Executar ```docker compose up``` para criar os containers.
 
 Projeto criado com as versões abaixo:
 * Node Version: 20.18.0
