@@ -36,6 +36,9 @@ Comentar uso da variável de ambiente DATABASE_URL usando docker e descomentar v
 3. Executar aplicação:
 ```npm run start:dev```
 
+### Rotas para uso:
+* Rota (API): http://localhost:3001
+* Rota (APP): https://localhost:4200
 
 ## Collection usada para testes da api usando Insomnia
 <a href="https://github.com/nalberthy/manage-vehicle-api/blob/master/collection/manage-vehicle-insominia.json" download>Click to Download</a>.
