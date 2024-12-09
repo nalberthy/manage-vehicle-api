@@ -4,7 +4,7 @@ CREATE TABLE "vehicle" (
     "created_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
     "deleted_at" TIMESTAMP(3),
-    "license-plate" TEXT NOT NULL,
+    "plate" TEXT NOT NULL,
     "chassis" TEXT NOT NULL,
     "renavam" TEXT NOT NULL,
     "brandId" INTEGER NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE "brand" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "vehicle_license-plate_key" ON "vehicle"("license-plate");
+CREATE UNIQUE INDEX "vehicle_plate_key" ON "vehicle"("plate");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "vehicle_chassis_key" ON "vehicle"("chassis");

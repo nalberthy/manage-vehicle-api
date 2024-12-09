@@ -4,7 +4,7 @@ import { Type } from 'class-transformer';
 
 export class VehicleDto {
   @IsString()
-  licensePlate: string;
+  plate: string;
 
   @IsString()
   chassis: string;

@@ -8,7 +8,7 @@ import { Prisma } from '@prisma/client';
 const vehiclesList: Prisma.VehicleGetPayload<{ include: { brand: true } }>[] = [
   {
     id: 1,
-    licensePlate: 'ABC1234',
+    plate: 'ABC1234',
     chassis: 'XYZ5678',
     renavam: '123456789',
     brandId: 1,
@@ -27,7 +27,7 @@ const vehiclesList: Prisma.VehicleGetPayload<{ include: { brand: true } }>[] = [
   },
   {
     id: 2,
-    licensePlate: 'DEF5678',
+    plate: 'DEF5678',
     chassis: 'UVW1234',
     renavam: '987654321',
     brandId: 2,
@@ -116,7 +116,7 @@ describe('VehicleService', () => {
     it('should create a new vehicle', async () => {
       const newVehicle = {
         id: 3,
-        licensePlate: 'GHI9012',
+        plate: 'GHI9012',
         chassis: 'MNO3456',
         renavam: '123456789',
         brandId: 3,

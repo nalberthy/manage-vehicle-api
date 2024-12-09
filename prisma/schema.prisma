@@ -14,7 +14,7 @@ model Vehicle {
   updatedAt DateTime? @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  licensePlate         String   @unique     @map("license-plate")
+  plate         String   @unique     @map("plate")
   chassis              String   @unique
   renavam              String   @unique
   
