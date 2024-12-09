@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { VehicleRepository } from '../repository/vehicle.repository';
 import { VehicleDto } from '../dto/vehicle.dto';
 import { Prisma } from '@prisma/client';
+import { VehicleErrors } from '../exception/vehicle.erros';
 
 @Injectable()
 export class VehicleService {
@@ -16,6 +17,12 @@ export class VehicleService {
   }
 
   async createVehicle(data: VehicleDto) {
+    const isVehicle = await this.vehicleRepository.findVehicle(data);
+
+    if (isVehicle) {
+      throw VehicleErrors.VEHICLE_ALREADY_EXISTS();
+    }
+
     const { id, name, model, year } = data.brand;
     const brandAssinged = await this.vehicleRepository.findBrand(
       id
@@ -47,7 +54,7 @@ export class VehicleService {
         },
       };
     }
-    return this.vehicleRepository.createVehicle(createVehicleData);
+    return await this.vehicleRepository.createVehicle(createVehicleData);
   }
 
   async createBrand(data: Prisma.BrandCreateInput) {
@@ -59,7 +66,7 @@ export class VehicleService {
     });
 
     if (isVehicle) {
-      throw new Error('Brand already exists');
+      throw VehicleErrors.BRAND_ALREADY_EXISTS();
     }
 
     return this.vehicleRepository.createBrand(data);

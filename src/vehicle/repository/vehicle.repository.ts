@@ -18,6 +18,12 @@ export class VehicleRepository {
     return this.prisma.vehicle.findMany({ include: { brand: true } });
   }
 
+  findVehicle(filter: Partial<Prisma.VehicleWhereUniqueInput>) {
+    return this.prisma.vehicle.findFirst({
+      where: filter,
+    });
+  }
+
   async getBrands(id?: number) {
     if (id) {
       return this.prisma.brand.findUnique({
