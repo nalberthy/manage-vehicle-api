@@ -133,6 +133,7 @@ describe('VehicleService', () => {
           deletedAt: null,
         },
       };
+      sinon.stub(vehicleRepository, 'findVehicle').resolves(null);
       sinon.stub(vehicleRepository, 'findBrand').resolves(null);
       sinon.stub(vehicleRepository, 'createVehicle').resolves(newVehicle);
       const createdVehicle = await vehicleService.createVehicle(newVehicle);
@@ -192,7 +193,7 @@ describe('VehicleService', () => {
       try {
         await vehicleService.createBrand(existingBrand);
       } catch (error) {
-        expect(error.message).to.equal('Brand already exists');
+        expect(error.statusCode).to.equal('BRAND_ALREADY_EXISTS');
       }
 
       sinon.restore();
