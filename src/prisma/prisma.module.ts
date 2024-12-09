@@ -13,7 +13,7 @@ import { PrismaService } from './prisma.service';
               $allOperations({ operation, args, query }) {
                 // Updated at
                 if (operation === 'update' || operation === 'updateMany') {
-                  args['updatedAt'] = new Date();
+                  args['data']['updatedAt'] = new Date();
                 }
 
                 // Soft delete
@@ -36,20 +36,6 @@ import { PrismaService } from './prisma.service';
                   }
                 }
 
-                if (operation === 'delete') {
-                  operation = 'update';
-                  args['data'] = { deletedAt: new Date() };
-                }
-
-                if (operation === 'deleteMany') {
-                  // Delete many queries
-                  operation = 'updateMany';
-                  if (args['data'] !== undefined) {
-                    args['data']['deletedAt'] = new Date();
-                  } else {
-                    args['data'] = { deletedAt: new Date() };
-                  }
-                }
                 return query(args);
               },
             },
