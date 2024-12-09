@@ -1,0 +1,54 @@
+version: '1.0'
+
+services:
+
+  # Postgres
+  postgres:
+    container_name: postgres
+    image: postgres:17
+    hostname: postgres
+    environment:
+      POSTGRES_PASSWORD: 'Postgres2024'
+    ports:
+      - 15432:5432
+    volumes:
+      - ./volumes/postgres-data:/var/lib/postgresql/data
+    networks:
+      - servers-network
+
+  # Api
+  api:
+    container_name: manage-vehicle-api
+    build:
+      context: ./manage-vehicle-api      
+      dockerfile: Dockerfile
+    ports:
+      - 3001:3000
+    volumes:
+      - ./manage-vehicle-api:/app
+    networks:
+      - servers-network
+    depends_on:
+      - postgres
+
+  # App
+  app:
+    container_name: manage-vehicle-app
+    image: node:22-slim
+    command: npm run start:ssl -- --host 0.0.0.0
+    working_dir: /app
+    ports:
+      - 4200:4200
+    volumes:
+      - ./manage-vehicle-app:/app
+    depends_on:
+      - api
+
+networks:
+  servers-network:
+    driver: bridge
+      
+volumes:
+
+  # Postgres volume
+  postgres-data:
