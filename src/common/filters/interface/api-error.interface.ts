@@ -1,7 +1,7 @@
 export interface ApiError {
   code: number;
 
-  statusCode?: number;
+  internalCode?: string;
 
   key: string;
 

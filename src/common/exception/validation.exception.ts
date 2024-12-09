@@ -5,7 +5,7 @@ export class ValidationException extends Exception {
   constructor(error: ValidationError | ValidationError[]) {
     super(
       400,
-      400,
+      'DTO_VALIDATION_ERROR',
       'DTO_VALIDATION_ERROR',
       ValidationException.mapConstraints2Message(error).join('; '),
       error,

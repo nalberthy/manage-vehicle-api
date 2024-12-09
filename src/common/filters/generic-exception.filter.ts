@@ -21,7 +21,7 @@ export class GenericExceptionFilter implements ExceptionFilter {
 
     let apiError: ApiError = {
       code: 500,
-      statusCode: 0,
+      internalCode: 'INTERNAL_SERVER_ERROR',
       key: null,
       message: null,
     };
@@ -45,7 +45,7 @@ export class GenericExceptionFilter implements ExceptionFilter {
   private parseAccountActivateException(exception: GenericException): ApiError {
     const apiError: ApiError = {
       code: exception.code,
-      statusCode: exception.statusCode,
+      internalCode: exception.statusCode,
       key: exception.key,
       message: exception.message,
       context: exception.context,
