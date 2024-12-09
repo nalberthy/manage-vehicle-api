@@ -81,6 +81,37 @@ describe('VehicleService', () => {
     });
   });
 
+  describe('getBrands', () => {
+    it('should return all brands', async () => {
+      const brandsList = vehiclesList.map((vehicle) => vehicle.brand);
+      sinon.stub(vehicleRepository, 'getBrands').resolves(brandsList);
+
+      const brands = await vehicleService.getBrands();
+
+      expect(brands).to.be.equals(brandsList);
+      sinon.restore();
+    });
+
+    it('should return a brand by ID', async () => {
+      const brand = vehiclesList[0].brand;
+      sinon.stub(vehicleRepository, 'getBrands').resolves(brand);
+
+      const result = await vehicleService.getBrands(1);
+
+      expect(result).to.be.equal(brand);
+      sinon.restore();
+    });
+
+    it('should return null for an invalid ID', async () => {
+      sinon.stub(vehicleRepository, 'getBrands').resolves(null);
+
+      const result = await vehicleService.getBrands(3);
+
+      expect(result).to.be.equal(null);
+      sinon.restore();
+    });
+  });
+
   describe('createVehicle', () => {
     it('should create a new vehicle', async () => {
       const newVehicle = {
@@ -132,6 +163,61 @@ describe('VehicleService', () => {
     });
   });
 
+  describe('createBrand', () => {
+    it('should create a new brand', async () => {
+      const newBrand = {
+        id: 3,
+        name: 'Ford',
+        model: 'Focus',
+        year: '2022',
+        createdAt: new Date(),
+        updatedAt: null,
+        deletedAt: null,
+      };
+
+      sinon.stub(vehicleRepository, 'findBrand').resolves(null);
+      sinon.stub(vehicleRepository, 'createBrand').resolves(newBrand);
+
+      const createdBrand = await vehicleService.createBrand(newBrand);
+
+      expect(createdBrand).to.equal(newBrand);
+      sinon.restore();
+    });
+
+    it('should throw an error if brand already exists', async () => {
+      const existingBrand = vehiclesList[0].brand;
+
+      sinon.stub(vehicleRepository, 'findBrand').resolves(existingBrand);
+
+      try {
+        await vehicleService.createBrand(existingBrand);
+      } catch (error) {
+        expect(error.message).to.equal('Brand already exists');
+      }
+
+      sinon.restore();
+    });
+  });
+
+  describe('updateBrand', () => {
+    it('should update an existing brand', async () => {
+      const updatedBrand = {
+        model: 'Corolla Altis',
+      };
+
+      sinon.stub(vehicleRepository, 'updateBrand').resolves({
+        ...vehiclesList[0].brand,
+        model: updatedBrand.model,
+      });
+
+      const result = await vehicleService.updateBrand(1, updatedBrand);
+
+      expect(result).to.have.property('model', updatedBrand.model);
+      expect(result).not.equal(vehiclesList[0].brand);
+      sinon.restore();
+    });
+  });
+
   describe('deleteVehicle', () => {
     it('should delete a vehicle by ID', async () => {
       const deleteDate = new Date();
@@ -141,6 +227,21 @@ describe('VehicleService', () => {
       const result = await vehicleService.deleteVehicle(2);
       expect(result).to.have.property('deletedAt', deleteDate);
       expect(result).not.equal(vehiclesList[1]);
+      sinon.restore();
+    });
+  });
+
+  describe('deleteBrand', () => {
+    it('should delete a brand by ID', async () => {
+      const deleteDate = new Date();
+      sinon
+        .stub(vehicleRepository, 'deleteBrand')
+        .resolves({ ...vehiclesList[1].brand, deletedAt: deleteDate });
+
+      const result = await vehicleService.deleteBrand(2);
+
+      expect(result).to.have.property('deletedAt', deleteDate);
+      expect(result).not.equal(vehiclesList[1].brand);
       sinon.restore();
     });
   });
